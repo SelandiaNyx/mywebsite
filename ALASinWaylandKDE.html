@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>如何在 Wayland KDE 上使用碧蓝航线脚本 ALAS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        section {
+            background: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #007bff;
+        }
+        pre {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        ol, ul {
+            margin: 10px 0 20px 20px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>如何在 Wayland KDE 上使用碧蓝航线脚本 ALAS</h1>
+        <p>发布日期: 2024年9月27日</p>
+    </header>
+    <section>
+        <h2>电脑配置</h2>
+        <ul>
+            <li><strong>OS</strong>: Arch Linux x86_64</li>
+            <li><strong>Kernel</strong>: Linux 6.10.10-zen1-1-zen</li>
+            <li><strong>CPU</strong>: 12th Gen Intel(R) Core(TM) i5-12600K (10) @ 5.40 GHz</li>
+            <li><strong>GPU 1</strong>: NVIDIA GeForce RTX 4080 SUPER [Discrete]</li>
+            <li><strong>GPU 2</strong>: Intel AlderLake-S GT1 @ 1.45 GHz [Integrated]</li>
+            <li><strong>ALAS 教程链接</strong>: <a href="https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_cn" target="_blank">ALAS Installation Guide</a></li>
+        </ul>
+    </section>
+    <section>
+        <h2>步骤</h2>
+        <ol>
+            <li><strong>获取 ALAS</strong>
+                <pre><code>git clone https://github.com/LmeSzinc/AzurLaneAutoScript</code></pre>
+            </li>
+            <li><strong>进入目录</strong>
+                <pre><code>cd AzurLaneAutoScript</code></pre>
+            </li>
+            <li><strong>安装 Anaconda</strong>
+                <ol>
+                    <li><strong>下载 Anaconda</strong>
+                        <pre><code>wget https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh</code></pre>
+                    </li>
+                    <li><strong>执行安装程序</strong>
+                        <pre><code>bash ~/Downloads/Anaconda3-2024.06-1-Linux-x86_64.sh</code></pre>
+                    </li>
+                    <li><strong>配置 Anaconda</strong>
+                        <pre><code>source ~/.bashrc
+conda config --set auto_activate_base False
+conda init</code></pre>
+                    </li>
+                </ol>
+            </li>
+            <li><strong>准备运行环境</strong>
+                <ol>
+                    <li><strong>创建虚拟环境</strong>
+                        <pre><code>conda create -n alas python==3.7.6 -y</code></pre>
+                    </li>
+                    <li><strong>激活虚拟环境</strong>
+                        <pre><code>conda activate alas</code></pre>
+                    </li>
+                    <li><strong>安装依赖</strong>
+                        <pre><code>pip install -r requirements-in.txt</code></pre>
+                        <p>注意：必须使用带 in 的 txt，否则将会安装 Windows 环境下的依赖</p>
+                    </li>
+                    <li><strong>启动 ALAS</strong>
+                        <pre><code>python gui.py</code></pre>
+                    </li>
+                </ol>
+            </li>
+            <li><strong>安装 SDK</strong>
+                <pre><code>sudo pacman -S android-tools</code></pre>
+            </li>
+            <li><strong>安装 Waydroid 模拟器</strong>
+                <pre><code>sudo pacman -S waydroid
+waydroid init -s GAPPS
+systemctl enable --now waydroid-container.service</code></pre>
+            </li>
+            <li><strong>调整模拟器设置</strong>
+                <pre><code>waydroid prop set persist.waydroid.multi_windows true
+waydroid prop set persist.waydroid.height_padding 720
+waydroid prop set persist.waydroid.width_padding 1280</code></pre>
+            </li>
+            <li><strong>启动模拟器</strong>
+                <pre><code>waydroid session start
+waydroid show-full-ui</code></pre>
+            </li>
+            <li><strong>安装碧蓝航线</strong>
+                <pre><code>waydroid app install 你电脑上碧蓝航线apk文件路径</code></pre>
+            </li>
+            <li><strong>模拟器连接 adb</strong>
+                <ol>
+                    <li><strong>检查 adb</strong>
+                        <pre><code>adb devices</code></pre>
+                        <p>出现 list 即正常</p>
+                    </li>
+                    <li><strong>查看模拟器 IP</strong>
+                        <pre><code>waydroid status</code></pre>
+                    </li>
+                    <li><strong>连接 adb</strong>
+                        <pre><code>adb connect IP:5555</code></pre>
+                        <p>出现 connected 即可。</p>
+                    </li>
+                </ol>
+            </li>
+            <li><strong>启动 ALAS 交互界面</strong>
+                <p>直接在浏览器输入 <code>0.0.0.0:22267</code> 即可</p>
+            </li>
+            <li><strong>启动 ALAS</strong>
+                <p>正常情况下不需要自己设置模拟器 Serial，修改设置后直接启动就行</p>
+            </li>
+        </ol>
+    </section>
+    <footer>
+        <p>恭喜，你已经成功实现了在 Linux 上使用 ALAS 玩碧蓝航线，快随着二弟冲锋吧！</p>
+        <h2>可选内容：修改反和谐</h2>
+        <pre><code>sudo waydroid shell
+cd storage/
+cd emulated/
+cd 0
+cd Android/
+cd data/
+cd com.bilibili.azurlane/
+cd files/
+vim localization.txt</code></pre>
+    </footer>
+</body>
+</html>
