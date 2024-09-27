@@ -2,32 +2,105 @@
 <html lang="zh_cn">
 <head>
     <meta charset="UTF-8">
-    <title>
-        导航页
-    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导航页</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #ffebee);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #4caf50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #1e88e5;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .link-button {
+            text-decoration: none;
+            color: white;
+            background-color: #42a5f5;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1em;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .link-button:hover {
+            background-color: #1e88e5;
+        }
+
+        .image-section {
+            margin-top: 30px;
+        }
+
+        .image-section img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 动画效果 */
+        .link-button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* 导航部分，方便添加新文件 */
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+    </style>
 </head>
-<body style="background-color:white;">
-    <h1 style="text-align:center;color:green;">
-        这里是导航页
-    </h1>
-    <p style="text-align:center;color:blue;">
-        Arch Linux安装指南
-        <a href="Arch Linux_install.html" target="_black" style="text-decoration:none;">
-            🔗
-        </a>
-    </p>
-    <p style="text-align:center;color:blue;">
-        ALAS在wayland kde桌面环境使用指南
-        <a href="ALASinWaylandKDE.html" target="_black" style="text-decoration:none;">
-            🔗
-        </a>
-    </p>
-    <p style="text-align:center;color:green;">
-        画师焦茶的阿比
-        <a href="https://www.pixiv.net/artworks/68304229" target="_black">
-            🔗
-        </a>
-        <img src="photos/UID12845810/68304229_p0.jpg" width="1477" height="1025.5"/>
-    </p>
+<body>
+    <div class="container">
+        <h1>这里是导航页</h1>
+
+        <div class="nav-links">
+            <p>
+                Arch Linux 安装指南
+                <a href="Arch Linux_install.html" class="link-button" target="_blank">🔗 点击访问</a>
+            </p>
+
+            <p>
+                ALAS 在 Wayland KDE 桌面环境使用指南
+                <a href="ALASinWaylandKDE.html" class="link-button" target="_blank">🔗 点击访问</a>
+            </p>
+        </div>
+
+        <div class="image-section">
+            <p style="color:#4caf50;">画师焦茶的阿比</p>
+            <a href="https://www.pixiv.net/artworks/68304229" target="_blank">
+                <img src="photos/UID12845810/68304229_p0.jpg" alt="焦茶的阿比插画">
+            </a>
+        </div>
+    </div>
 </body>
 </html>
