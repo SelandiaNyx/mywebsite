@@ -1,72 +1,95 @@
-/* 元素居中 */
-.center {
-    width: 50%; /* 设置宽度 */
-    margin: 0 auto; /* 上下 margin 为 0，左右 margin 为 auto */
-    text-align: center; /* 可选：内容水平居中 */
-}
-
+/* 链接样式 */
 a {
-    display: inline-block; /* 使链接表现为块级元素 */
-    padding: 10px 20px; /* 内边距 */
-    background-color: #007bff; /* 按钮背景色 */
+    display: inline-block; /* 将链接显示为块级元素 */
+    padding: 10px 20px; /* 设置内边距 */
+    background-color: #007bff; /* 按钮背景颜色 */
     color: white; /* 字体颜色 */
     text-decoration: none; /* 去掉下划线 */
-    border-radius: 15px; /* 圆角 */
-    transition: background-color 0.3s; /* 添加过渡效果 */
+    border-radius: 15px; /* 设置圆角 */
+    transition: background-color 0.3s; /* 添加背景色过渡效果 */
 }
 
-/* 悬停时的背景色 */
+/* 链接获得焦点时的样式 */
+a:focus {
+    background-color: #e0e0e0; /* 添加背景色 */
+    outline: 3px dashed #0056b3; /* 虚线轮廓 */
+    outline-offset: 3px; /* 轮廓偏移 */
+}
+
+/* 悬停时的背景颜色和放大效果 */
 a:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* 悬停时背景色 */
+    transform: scale(1.05); /* 悬停时稍微放大按钮 */
 }
 
+/* 页面主体样式 */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
+    font-family: Arial, sans-serif; /* 字体样式 */
+    background-color: #f4f4f4; /* 页面背景色 */
+    color: #333; /* 字体颜色 */
+    line-height: 1.6; /* 行高 */
+    margin: 0; /* 清除默认外边距 */
+    padding: 20px; /* 设置内边距 */
 }
 
-/* 代码左对齐 */
+/* 代码样式 */
 code {
-    text-align: left;
+    text-align: left; /* 左对齐代码 */
+    font-family: 'Courier New', Courier, monospace; /* 等宽字体 */
 }
 
-/* 定义所有标题 h1, h2, h3, h4, h5, h6 的颜色为蓝色 */
+/* 标题样式 */
 h1, h2, h3, h4, h5, h6 {
-    color: #007bff;
+    color: #007bff; /* 标题颜色 */
+    margin: 10px 0; /* 上下外边距 */
 }
 
+/* 页眉样式 */
 header {
-    background: pink;
-    color: red;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-align: center;
+    background: #f8d7da; /* 页眉背景色 */
+    color: #721c24; /* 页眉字体颜色 */
+    padding: 10px 20px; /* 设置内边距 */
+    border-radius: 5px; /* 设置圆角 */
+    text-align: center; /* 中央对齐 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 添加阴影效果 */
 }
 
+/* 图像样式 */
+img {
+    max-width: 100%; /* 最大宽度设置为容器的100%，确保图像不会超出容器 */
+    height: auto; /* 高度自动调整，以保持图像的宽高比 */
+    border: 4px solid #007bff; /* 添加较宽的蓝色边框 */
+    border-radius: 10px; /* 设置更明显的圆角边框 */
+    padding: 5px; /* 添加内边距，增加边框与图像之间的距离 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加更显著的阴影效果 */
+    transition: transform 0.3s; /* 添加过渡效果 */
+}
+
+/* 有序列表样式 */
 ol {
-    margin: 10px 0 20px 20px;
+    margin: 10px 0 20px 20px; /* 上下外边距，左侧内边距 */
+    padding-left: 20px; /* 左侧内边距 */
 }
 
+/* 代码块样式 */
 pre {
-    background: #e9ecef;
-    padding: 10px;
-    border-radius: 5px;
-    overflow-x: auto;
-}
-
-/* 定义页面内容区块的样式 */
-section {
-    background: #fff; /* 背景颜色为白色 */
-    padding: 20px; /* 内边距 */
-    margin: 20px 0; /* 上下外边距 */
+    background: #e9ecef; /* 背景颜色 */
     border-radius: 5px; /* 圆角边框 */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 添加轻微阴影效果 */
+    overflow-x: auto; /* 横向溢出滚动 */
+    padding: 10px; /* 内边距 */
 }
 
+/* 内容区块样式 */
+section {
+    background: #fff; /* 内容区块背景颜色 */
+    border-radius: 5px; /* 圆角边框 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 添加阴影效果 */
+    margin: 20px 0; /* 上下外边距 */
+    padding: 20px; /* 内边距 */
+}
+
+/* 无序列表样式 */
 ul {
-    margin: 10px 0 20px 20px;
+    margin: 10px 0 20px 20px; /* 上下外边距，左侧内边距 */
+    padding-left: 20px; /* 左侧内边距 */
 }
