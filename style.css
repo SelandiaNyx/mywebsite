@@ -1,0 +1,72 @@
+/* 元素居中 */
+.center {
+    width: 50%; /* 设置宽度 */
+    margin: 0 auto; /* 上下 margin 为 0，左右 margin 为 auto */
+    text-align: center; /* 可选：内容水平居中 */
+}
+
+a {
+    display: inline-block; /* 使链接表现为块级元素 */
+    padding: 10px 20px; /* 内边距 */
+    background-color: #007bff; /* 按钮背景色 */
+    color: white; /* 字体颜色 */
+    text-decoration: none; /* 去掉下划线 */
+    border-radius: 15px; /* 圆角 */
+    transition: background-color 0.3s; /* 添加过渡效果 */
+}
+
+/* 悬停时的背景色 */
+a:hover {
+    background-color: #0056b3;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+/* 代码左对齐 */
+code {
+    text-align: left;
+}
+
+/* 定义所有标题 h1, h2, h3, h4, h5, h6 的颜色为蓝色 */
+h1, h2, h3, h4, h5, h6 {
+    color: #007bff;
+}
+
+header {
+    background: pink;
+    color: red;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+ol {
+    margin: 10px 0 20px 20px;
+}
+
+pre {
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+/* 定义页面内容区块的样式 */
+section {
+    background: #fff; /* 背景颜色为白色 */
+    padding: 20px; /* 内边距 */
+    margin: 20px 0; /* 上下外边距 */
+    border-radius: 5px; /* 圆角边框 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 添加轻微阴影效果 */
+}
+
+ul {
+    margin: 10px 0 20px 20px;
+}

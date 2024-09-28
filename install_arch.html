@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arch Linux 安装教程</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+        <h1>Arch Linux 安装教程</h1>
+        <p>发布日期: 2024年9月28日</p>
+    </header>
+    <section>
+        <h2>电脑配置</h2>
+        <ul>
+            <li><strong>CPU</strong>: 12th Gen Intel(R) Core(TM) i5-12600K (10) @ 5.30 GHz</li>
+            <li><strong>GPU 1</strong>: NVIDIA GeForce RTX 4080 SUPER [Discrete]</li>
+            <li><strong>GPU 2</strong>: Intel AlderLake-S GT1 @ 1.45 GHz [Integrated]</li>
+        </ul>
+    </section>
+    <section>
+		<h2>事前准备</h2>
+		<h3>下载 ISO 镜像</h3>
+		<ul>
+			<li><strong>官网链接</strong>: <a href="https://archlinux.org/download/" target="_blank" rel="noopener noreferrer">🔗Arch Linux 下载官网</a></li>
+		</ul>
+		<h3>刻录 U 盘</h3>
+		<ul>
+			<li><strong>推荐使用 rufus，简单易操作</strong></li>
+		</ul>
+		<h3>BIOS 设置 U 盘启动</h3>
+		<ul>
+			<li><strong>进入 BIOS 后找到启动设置，调整为从 U 盘启动</strong></li>
+		</ul>
+    </section>
+    <section>
+		<h2>正式安装</h2>
+		<ol>
+			<li><strong>连接无线网络</strong>
+                <pre><code>iwctl                                       #执行iwctl命令，进入交互式命令行
+device list                                 #列出设备名，比如无线网卡看到叫 wlan0
+station wlan0 scan                          #扫描网络
+station wlan0 get-networks                  #列出网络 比如想连接YOUR-WIRELESS-NAME这个无线
+station wlan0 connect YOUR-WIRELESS-NAME    #进行连接 输入密码即可
+exit                                        #成功后exit退出
+ping wwww.baidu.com                         #测试网络连通性</code></pre>
+			</li>
+            <li><strong>更新系统时钟</strong>
+				<pre><code>timedatectl set-ntp true                    #将系统时间与网络时间进行同步
+timedatectl status                          #检查服务状态</code></pre>
+			</li>
+			<li><strong>分区</strong>
+				<pre><code>lsblk                                       #显示分区情况 找到你想安装的磁盘名称
+parted /dev/nvme0n1                         #执行parted，进入交互式命令行，进行磁盘类型变更
+(parted)mktable                             #输入mktable
+New disk label type? gpt                    #输入gpt 将磁盘类型转换为gpt 如磁盘有数据会警告，输入yes即可
+quit                                        #最后quit退出parted命令行交互
+cfdisk /dev/nvme0n1                         #先选择 new 模式新建 EFI 分区，大小建议大于等于 256MB,删除并输入 256M 即可，新建 EFI 分区后选择此分区，并选择 TYPE，进入后选择选择 EFI System 类型。随后创建 swap 分区，大小建议大于等于你的内存大小，类型选择 Linux swap。剩余大小全部用于创建 / 分区，默认选择Linux filesystem类型。最后选择 write，回车后输入 yes 再次回车，分区结束
+fdisk -l                                    #分区结束后， 复查磁盘情况</code></pre>
+			</li>
+			<li><strong>格式化</strong>
+				<pre><code>mkfs.fat -F 32 /dev/nvme0n1p1               #格式化efi分区
+mkswap /dev/nvme0n1p2                       #格式化swap分区
+mkfs.btrfs /dev/nvme0n1p3                   #格式化/分区</code></pre>
+			</li>
+    </section>
+</body>
