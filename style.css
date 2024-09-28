@@ -56,14 +56,17 @@ header {
 
 /* 图像样式 */
 img {
-    max-width: 100%; /* 最大宽度设置为容器的100%，确保图像不会超出容器 */
-    height: auto; /* 高度自动调整，以保持图像的宽高比 */
-    border: 4px solid #007bff; /* 添加较宽的蓝色边框 */
-    border-radius: 10px; /* 设置更明显的圆角边框 */
-    padding: 5px; /* 添加内边距，增加边框与图像之间的距离 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加更显著的阴影效果 */
-    transition: transform 0.3s; /* 添加过渡效果 */
+    max-width: 100%; /* 确保图像不会超出容器的宽度 */
+    height: auto; /* 保持图像的宽高比 */
+    border: 4px solid #007bff; /* 边框颜色为蓝色，宽度为4px */
+    border-radius: 10px; /* 圆角半径为10px */
+    padding: 5px; /* 图像与边框之间的间距为5px */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影效果，使图像有浮动感 */
+    transition: transform 0.3s; /* 使图像在特定操作时有平滑的缩放效果 */
+    display: block; /* 让图像成为块级元素，便于居中 */
+    margin: 0 auto; /* 通过自动边距使图像水平居中 */
 }
+
 
 /* 有序列表样式 */
 ol {
@@ -86,6 +89,12 @@ section {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 添加阴影效果 */
     margin: 20px 0; /* 上下外边距 */
     padding: 20px; /* 内边距 */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+section:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    transform: translateY(-5px); /* 鼠标悬停时轻微上移 */
 }
 
 /* 无序列表样式 */
