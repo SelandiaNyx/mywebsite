@@ -27,13 +27,22 @@ void displaySubtraction(int num1, int num2) {
 }
 
 int main() {
-    // Get input from keyboard
-    int num1 = getValidIntegerInput("Enter an integer: ");
-    int num2 = getValidIntegerInput("Enter another integer: ");
+    char choice;
+    do {
+        // Get input from keyboard
+        int num1 = getValidIntegerInput("Enter an integer: ");
+        int num2 = getValidIntegerInput("Enter another integer: ");
 
-    // Output results
-    displayAddition(num1, num2);
-    displaySubtraction(num1, num2);
+        // Output results
+        displayAddition(num1, num2);
+        displaySubtraction(num1, num2);
+
+        // Ask the user if they want to perform another calculation
+        std::cout << "Do you want to perform another calculation? (y/n): ";
+        std::cin >> choice;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard remaining input
+
+    } while (choice == 'y' || choice == 'Y');
 
     return 0;
 }
