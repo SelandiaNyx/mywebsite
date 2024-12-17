@@ -1,24 +1,39 @@
-/*
-Enter an integer: 6
-Enter another integer: 4
-6 + 4 is 10.
-6 - 4 is 2.
-*/
 #include <iostream>
-int main()
-{
-    // Define variables
-    int num1{}, num2{};
+#include <limits>
 
+// Function to get a valid integer input from the user
+int getValidIntegerInput(const std::string& prompt) {
+    int number;
+    while (true) {
+        std::cout << prompt;
+        if (std::cin >> number) {
+            return number;
+        } else {
+            std::cerr << "Invalid input. Please enter an integer." << std::endl;
+            std::cin.clear(); // Clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+        }
+    }
+}
+
+// Function to perform and display addition
+void displayAddition(int num1, int num2) {
+    std::cout << num1 << " + " << num2 << " is " << num1 + num2 << std::endl;
+}
+
+// Function to perform and display subtraction
+void displaySubtraction(int num1, int num2) {
+    std::cout << num1 << " - " << num2 << " is " << num1 - num2 << std::endl;
+}
+
+int main() {
     // Get input from keyboard
-    std::cout << "Enter an integer: ";
-    std::cin >> num1;
-    std::cout << "Enter another integer: ";
-    std::cin >> num2;
+    int num1 = getValidIntegerInput("Enter an integer: ");
+    int num2 = getValidIntegerInput("Enter another integer: ");
 
     // Output results
-    std::cout << num1 << " + " << num2 << " is " << num1 + num2 << std::endl;
-    std::cout << num1 << " - " << num2 << " is " << num1 - num2 << std::endl;
+    displayAddition(num1, num2);
+    displaySubtraction(num1, num2);
 
     return 0;
 }

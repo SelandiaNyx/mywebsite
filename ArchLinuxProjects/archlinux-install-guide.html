@@ -2,73 +2,85 @@
 <html lang="zh-Hans">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Arch Linux 安装教程</title>
-	<link rel="stylesheet" href="../WebsiteCode/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arch Linux 安装教程</title>
+    <link rel="stylesheet" href="../WebsiteCode/style.css">
 </head>
 
 <body>
-	<header>
-		<h1>Arch Linux 安装教程</h1>
-		<p>发布日期: 2024年9月28日</p>
-	</header>
-	<section>
-		<h2>电脑配置</h2>
-		<ul>
-			<li><strong>CPU</strong>: 12th Gen Intel(R) Core(TM) i5-12600K (10) @ 5.30 GHz</li>
-			<li><strong>GPU 1</strong>: NVIDIA GeForce RTX 4080 SUPER [Discrete]</li>
-			<li><strong>GPU 2</strong>: Intel AlderLake-S GT1 @ 1.45 GHz [Integrated]</li>
-		</ul>
-	</section>
-	<section>
-		<h2>事前准备</h2>
-		<h3>下载 ISO 镜像</h3>
-		<ul>
-			<li><strong>官网链接</strong>: <a href="https://archlinux.org/download/" target="_blank"
-					rel="noopener noreferrer">🔗Arch Linux 下载官网</a></li>
-		</ul>
-		<h3>刻录 U 盘</h3>
-		<ul>
-			<li><strong>推荐使用 rufus，简单易操作</strong></li>
-		</ul>
-		<h3>BIOS 设置 U 盘启动</h3>
-		<ul>
-			<li><strong>进入 BIOS 后找到启动设置，调整为从 U 盘启动</strong></li>
-		</ul>
-	</section>
-	<section>
-		<h2>正式安装</h2>
-		<ol>
-			<li><strong>连接无线网络</strong>
-				<pre><code>iwctl                                       #执行iwctl命令，进入交互式命令行
+    <header>
+        <h1>Arch Linux 安装教程</h1>
+        <p>发布日期: 2024年9月28日</p>
+    </header>
+    <main>
+        <section>
+            <h2>电脑配置</h2>
+            <ul>
+                <li><strong>CPU</strong>: 12th Gen Intel(R) Core(TM) i5-12600K (10) @ 5.30 GHz</li>
+                <li><strong>GPU 1</strong>: NVIDIA GeForce RTX 4080 SUPER [Discrete]</li>
+                <li><strong>GPU 2</strong>: Intel AlderLake-S GT1 @ 1.45 GHz [Integrated]</li>
+            </ul>
+        </section>
+        <section>
+            <h2>事前准备</h2>
+            <article>
+                <h3>下载 ISO 镜像</h3>
+                <ul>
+                    <li><strong>官网链接</strong>: <a href="https://archlinux.org/download/" target="_blank"
+                            rel="noopener noreferrer">🔗Arch Linux 下载官网</a></li>
+                </ul>
+            </article>
+            <article>
+                <h3>刻录 U 盘</h3>
+                <ul>
+                    <li><strong>推荐使用 rufus，简单易操作</strong></li>
+                </ul>
+            </article>
+            <article>
+                <h3>BIOS 设置 U 盘启动</h3>
+                <ul>
+                    <li><strong>进入 BIOS 后找到启动设置，调整为从 U 盘启动</strong></li>
+                </ul>
+            </article>
+        </section>
+        <section>
+            <h2>正式安装</h2>
+            <ol>
+                <li>
+                    <strong>连接无线网络</strong>
+                    <pre><code>iwctl                                       #执行iwctl命令，进入交互式命令行
 device list                                 #列出设备名，比如无线网卡看到叫 wlan0
 station wlan0 scan                          #扫描网络
 station wlan0 get-networks                  #列出网络 比如想连接YOUR-WIRELESS-NAME这个无线
 station wlan0 connect YOUR-WIRELESS-NAME    #进行连接 输入密码即可
 exit                                        #成功后exit退出
 ping wwww.baidu.com                         #测试网络连通性</code></pre>
-			</li>
-			<li><strong>更新系统时钟</strong>
-				<pre><code>timedatectl set-ntp true                    #将系统时间与网络时间进行同步
+                </li>
+                <li>
+                    <strong>更新系统时钟</strong>
+                    <pre><code>timedatectl set-ntp true                    #将系统时间与网络时间进行同步
 timedatectl status                          #检查服务状态</code></pre>
-			</li>
-			<li><strong>分区</strong>
-				<pre><code>lsblk                                       #显示分区情况 找到你想安装的磁盘名称
+                </li>
+                <li>
+                    <strong>分区</strong>
+                    <pre><code>lsblk                                       #显示分区情况 找到你想安装的磁盘名称
 parted /dev/nvme0n1                         #执行parted，进入交互式命令行，进行磁盘类型变更
 (parted)mktable                             #输入mktable
 New disk label type? gpt                    #输入gpt 将磁盘类型转换为gpt 如磁盘有数据会警告，输入yes即可
 quit                                        #最后quit退出parted命令行交互
 cfdisk /dev/nvme0n1                         #先选择 new 模式新建 EFI 分区，大小建议大于等于 256MB,删除并输入 256M 即可，新建 EFI 分区后选择此分区，并选择 TYPE，进入后选择选择 EFI System 类型。随后创建 swap 分区，大小建议大于等于你的内存大小，类型选择 Linux swap。剩余大小全部用于创建 / 分区，默认选择Linux filesystem类型。最后选择 write，回车后输入 yes 再次回车，分区结束
 fdisk -l                                    #分区结束后， 复查磁盘情况</code></pre>
-			</li>
-			<li><strong>格式化</strong>
-				<pre><code>mkfs.fat -F 32 /dev/nvme0n1p1               #格式化efi分区
+                </li>
+                <li>
+                    <strong>格式化</strong>
+                    <pre><code>mkfs.fat -F 32 /dev/nvme0n1p1               #格式化efi分区
 mkswap /dev/nvme0n1p2                       #格式化swap分区
 mkfs.btrfs /dev/nvme0n1p3                   #格式化/分区</code></pre>
-			</li>
-			<li><strong>挂载</strong>
-				<pre><code>按顺序来，避免出错
+                </li>
+                <li>
+                    <strong>挂载</strong>
+                    <pre><code>按顺序来，避免出错
 首先创建子卷，将 / 分区挂载到 /mnt 下
 mount -t btrfs -o compress=zstd /dev/nvme0n1p3 /mnt
 btrfs subvolume create /mnt/@               #创建/目录子卷
@@ -81,111 +93,131 @@ mount -t btrfs -o subvol=/@home,compress=zstd /dev/nvme0n1p3 /mnt/home # 挂载/
 mkdir -p /mnt/boot                          #创建/boot目录
 mount /dev/nvme0n1p1 /mnt/boot              #挂载/boot目录
 swapon /dev/nvme0n1p2                       #挂载交换分区</code></pre>
-			</li>
-			<li><strong>安装系统</strong>
-				<pre><code>先修改 pacman 配置文件，避免龟速下载
+                </li>
+                <li>
+                    <strong>安装系统</strong>
+                    <pre><code>先修改 pacman 配置文件，避免龟速下载
 vim /etc/pacman.conf
 删掉 # ParalleDownloads = 5 前面的 #，开启并行下载
 vim /etc/pacman.d/mirrorlist
 在最上面添加
 Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch	#这是中科大镜像站，其他镜像站也行
 pacstrap /mnt base base-devel linux-zen linux-zen-headers linux-firmware btrfs-progs  #这里为了性能我选择zen内核，你也可以选择其它内核</code></pre>
-			</li>
-			<li><strong>安装其它必要的功能性软件</strong>
-				<pre><code>pacstrap /mnt networkmanager vim sudo bash bash-completion	#会zsh的把bash换成zsh就好了</code></pre>
-			</li>
-			<li><strong>生成 fstab 文件</strong>
-				<pre><code>genfstab -U /mnt >> /mnt/etc/fstab	#wiki写法，你可能看过别的教程并且写法不一样，为了避免出错我推荐使用wiki写法</code></pre>
-			</li>
-			<li><strong>切换 root</strong>
-				<pre><code>arch-chroot /mnt	#颜色变了就对了</code></pre>
-			</li>
-			<li><strong>设置主机名与时区</strong>
-				<pre><code>vim /etc/hostname                           #随便写，推荐写fucknvidia来提醒自己
+                </li>
+                <li>
+                    <strong>安装其它必要的功能性软件</strong>
+                    <pre><code>pacstrap /mnt networkmanager vim sudo bash bash-completion	#会zsh的把bash换成zsh就好了</code></pre>
+                </li>
+                <li>
+                    <strong>生成 fstab 文件</strong>
+                    <pre><code>genfstab -U /mnt >> /mnt/etc/fstab	#wiki写法，你可能看过别的教程并且写法不一样，为了避免出错我推荐使用wiki写法</code></pre>
+                </li>
+                <li>
+                    <strong>切换 root</strong>
+                    <pre><code>arch-chroot /mnt	#颜色变了就对了</code></pre>
+                </li>
+                <li>
+                    <strong>设置主机名与时区</strong>
+                    <pre><code>vim /etc/hostname                           #随便写，推荐写fucknvidia来提醒自己
 vim /etc/hosts                              #设置hosts,一般不需要
 加入以下内容：
 127.0.0.1   localhost
 ::1         localhost
 127.0.1.1   fucknvidia.localdomain fucknvidia
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime #只有Shanghai，评判标准是人数，不要感到奇怪</code></pre>
-			</li>
-			<li><strong>硬件时间同步</strong>
-				<pre><code>hwclock --systohc</code></pre>
-			</li>
-			<li><strong>设置 Locale</strong>
-				<pre><code>vim /etc/locale.gen				#去掉 en_US.UTF-8 UTF-8 以及 zh_CN.UTF-8 UTF-8 行前的注释符号 #
+                </li>
+                <li>
+                    <strong>硬件时间同步</strong>
+                    <pre><code>hwclock --systohc</code></pre>
+                </li>
+                <li>
+                    <strong>设置 Locale</strong>
+                    <pre><code>vim /etc/locale.gen				#去掉 en_US.UTF-8 UTF-8 以及 zh_CN.UTF-8 UTF-8 行前的注释符号 #
 vim /etc/locale.gen
 locale-gen  					#生成locale
 echo 'LANG=en_US.UTF-8'  > /etc/locale.conf	#建议别改zh_CN.UTF-8，概率出问题</code></pre>
-			</li>
-			<li><strong>设置 root 密码</strong>
-				<pre><code>passwd root	#不显示密码，需要输入两次，出现successfully即为成功</code></pre>
-			</li>
-			<li><strong>安装微码</strong>
-				<pre><code>pacman -S intel-ucode #Intel
+                </li>
+                <li>
+                    <strong>设置 root 密码</strong>
+                    <pre><code>passwd root	#不显示密码，需要输入两次，出现successfully即为成功</code></pre>
+                </li>
+                <li>
+                    <strong>安装微码</strong>
+                    <pre><code>pacman -S intel-ucode #Intel
 pacman -S amd-ucode #AMD
 根据你电脑实际情况选择</code></pre>
-			</li>
-			<li><strong>安装引导程序</strong>
-				<pre><code>pacman -S grub efibootmgr os-prober
+                </li>
+                <li>
+                    <strong>安装引导程序</strong>
+                    <pre><code>pacman -S grub efibootmgr os-prober
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=ARCH
 vim /etc/default/grub
 多系统把最后一行 #GRUB_DISABLE_OS_PROBER=false取消注释，NVIDIA 显卡现在就可以修改 GRUB_CMDLINE_LINUX_DEFAULT 里的内容，加入 nvidia-drm.modeset=1和 nvidia.NVreg_PreserveVideoMemoryAllocations=1，前一个开启 drm，后一个让系统可以正常休眠
 grub-mkconfig -o /boot/grub/grub.cfg    #生成grub所需的配置文件</code></pre>
-			</li>
-			<li><strong>完成安装</strong>
-				<pre><code>exit                                    #退回安装环境
+                </li>
+                <li>
+                    <strong>完成安装</strong>
+                    <pre><code>exit                                    #退回安装环境
 umount -R /mnt                          #卸载新分区
 reboot                                  #重启
 记得拔掉U盘</code></pre>
-			</li>
-			<li><strong>开启网络自启动服务</strong>
-				<pre><code>root
+                </li>
+                <li>
+                    <strong>开启网络自启动服务</strong>
+                    <pre><code>root
 输入你刚才设置的密码并回车
 systemctl enable --now NetworkManager #设置开机自启并立即启动NetworkManager 服务
 nmcli dev wifi list #显示附近的 Wi-Fi 网络
 nmcli dev wifi connect "Wi-Fi名（SSID）" password "网络密码" #连接指定的无线网络
 ping www.baidu.com #测试网络连接</code></pre>
-			</li>
-			<li><strong>打印系统信息</strong>
-				<pre><code>pacman -S fastfetch
+                </li>
+                <li>
+                    <strong>打印系统信息</strong>
+                    <pre><code>pacman -S fastfetch
 fastfetch</code></pre>
-			</li>
-			<li><strong>配置 root 账户的默认编辑器</strong>
-				<pre><code>vim ~/.bash_profile
+                </li>
+                <li>
+                    <strong>配置 root 账户的默认编辑器</strong>
+                    <pre><code>vim ~/.bash_profile
 添加 export EDITOR='vim'</code></pre>
-			</li>
-			<li><strong>准备非 root 用户</strong>
-				<pre><code>useradd -m -G wheel -s /bin/bash myusername #myusername你可以随便写
+                </li>
+                <li>
+                    <strong>准备非 root 用户</strong>
+                    <pre><code>useradd -m -G wheel -s /bin/bash myusername #myusername你可以随便写
 passwd myusername   #和前面root一样
 EDITOR=vim visudo #这里需要显式的指定编辑器，因为上面的环境变量还未生效
 找到 #%wheel ALL=(ALL:ALL) ALL，删掉 #</code></pre>
-			</li>
-			<li><strong>开启 32 位支持库与 Arch Linux 中文社区仓库（archlinuxcn）</strong>
-				<pre><code>vim /etc/pacman.conf
+                </li>
+                <li>
+                    <strong>开启 32 位支持库与 Arch Linux 中文社区仓库（archlinuxcn）</strong>
+                    <pre><code>vim /etc/pacman.conf
 去掉 [multilib] 一节中两行的注释，来开启 32 位库支持
 添加以下内容：
 [archlinuxcn]
 Server = https://mirrors.ustc.edu.cn/archlinuxcn/$arch #中国科学技术大学开源镜像站
 pacman -Syyu</code></pre>
-			</li>
-			<li><strong>安装 KDE Plasma 桌面环境及显卡驱动等一堆玩意儿</strong>
-				<pre><code>pacman -S plasma-meta konsole dolphin firefox ntfs-3g adobe-source-han-serif-cn-fonts wqy-zenhei noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra unzip unrar packagekit packagekit-qt6 gwenview nvidia-open-dkms nvidia-utils lib32-nvidia-utils
+                </li>
+                <li>
+                    <strong>安装 KDE Plasma 桌面环境及显卡驱动等一堆玩意儿</strong>
+                    <pre><code>pacman -S plasma-meta konsole dolphin firefox ntfs-3g adobe-source-han-serif-cn-fonts wqy-zenhei noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra unzip unrar packagekit packagekit-qt6 gwenview nvidia-open-dkms nvidia-utils lib32-nvidia-utils
 pacman -S archlinuxcn-keyring
 pacman -S yay
 AMD显卡可以直接使用默认驱动，带有nvidia字样的全部去掉</code></pre>
-			</li>
-			<li><strong>配置并启动 greeter sddm</strong>
-				<pre><code>systemctl enable sddm
+                </li>
+                <li>
+                    <strong>配置并启动 greeter sddm</strong>
+                    <pre><code>systemctl enable sddm
 reboot
 输入用户密码回车登录</code></pre>
-			</li>
-			<li><strong>配置非 root 账户的默认编辑器</strong>
-				<pre><code>vim ~/.bashrc
+                </li>
+                <li>
+                    <strong>配置非 root 账户的默认编辑器</strong>
+                    <pre><code>vim ~/.bashrc
 加入 export EDITOR='vim'</code></pre>
-			</li>
-			<li><strong>安装输入法</strong>
-				<pre><code>先在系统设置里找到 language 设置，选第一个 moddify 并添加简体中文，移动到最上面，返回上一级菜单点击 restart now
+                </li>
+                <li>
+                    <strong>安装输入法</strong>
+                    <pre><code>先在系统设置里找到 language 设置，选第一个 moddify 并添加简体中文，移动到最上面，返回上一级菜单点击 restart now
 sudo pacman -S fcitx5-im fcitx5-chinese-addons fcitx5-pinyin-moegirl fcitx5-pinyin-sougou
 mkdir ~/.config/environment.d
 vim ~/.config/environment.d/im.conf
@@ -194,15 +226,20 @@ vim ~/.config/environment.d/im.conf
 点击提示信息中的 运行 Fcitx
 打开 系统设置 > 键盘 > 虚拟键盘
 选择 Wayland 启动器</code></pre>
-			</li>
-			<li><strong>开启蓝牙</strong>
-				<pre><code>sudo systemctl enable --now bluetooth</code></pre>
-			</li>
-			<li><strong>全局代理</strong>
-				<pre><code>sudo pacman -S daed
+                </li>
+                <li>
+                    <strong>开启蓝牙</strong>
+                    <pre><code>sudo systemctl enable --now bluetooth</code></pre>
+                </li>
+                <li>
+                    <strong>全局代理</strong>
+                    <pre><code>sudo pacman -S daed
 sudo systemctl enable --now daed
 浏览器打开 http://localhost:2023 添加订阅并拖至代理后打开右上角开关开始使用</code></pre>
-			</li>
-		</ol>
-	</section>
+                </li>
+            </ol>
+        </section>
+    </main>
 </body>
+
+</html>

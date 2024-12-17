@@ -1,1 +1,28 @@
+# 编译生成的文件
+*.o
+*.a
+*.so
+*.exe
+
+# IDE 和编辑器生成的文件
 .vscode/
+.idea/
+.DS_Store
+
+# 日志文件
+*.log
+
+# 临时文件
+*.tmp
+*.swp
+
+# 其他常见的忽略项
+Thumbs.db
+*.bak
+*.class
+*.jar
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/

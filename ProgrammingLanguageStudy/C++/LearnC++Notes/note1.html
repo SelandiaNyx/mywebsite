@@ -1,81 +1,82 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C++ 基础知识</title>
     <link rel="stylesheet" href="../../../WebsiteCode/style.css">
 </head>
-
 <body>
     <header>
         <h1>C++ 基础知识</h1>
     </header>
 
-    <section>
-        <h2>语句</h2>
-        <p>语句是一种指令，让程序执行某些操作。语句通常以分号结尾。</p>
-    </section>
+    <main>
+        <article>
+            <section>
+                <h2>语句</h2>
+                <p>语句是一种指令，让程序执行某些操作。语句通常以分号结尾。</p>
+            </section>
 
-    <section>
-        <h2>函数</h2>
-        <p>函数是一组序列执行的语句。每个 C++ 程序都必须包含一个 <code>main</code> 函数。当你执行程序的时候，首先会从 <code>main</code> 函数开始执行。</p>
-    </section>
+            <section>
+                <h2>函数</h2>
+                <p>函数是一组序列执行的语句。每个 C++ 程序都必须包含一个 <code>main</code> 函数。当你执行程序的时候，首先会从 <code>main</code> 函数开始执行。</p>
+            </section>
 
-    <section>
-        <h2>语法</h2>
-        <p>这些控制 C++ 元素组织形式的规则，称为语法。当你违反语言的语法规则时，就会产生语法错误。</p>
-    </section>
+            <section>
+                <h2>语法</h2>
+                <p>这些控制 C++ 元素组织形式的规则，称为语法。当你违反语言的语法规则时，就会产生语法错误。</p>
+            </section>
 
-    <section>
-        <h2>注释</h2>
-        <p>注释允许你在代码中留下笔记。C++ 支持两种类型的注释：</p>
-        <ul>
-            <li>行内注释以 <code>//</code> 开头。</li>
-            <li>段落注释以 <code>/*</code> 开头，以 <code>*/</code> 结束。</li>
-        </ul>
-        <p>你可以通过注释来临时屏蔽一行或一段代码，上述操作称为注释掉（commenting out）代码。</p>
-    </section>
+            <section>
+                <h2>注释</h2>
+                <p>注释允许你在代码中留下笔记。C++ 支持两种类型的注释：</p>
+                <ul>
+                    <li>行内注释以 <code>//</code> 开头。</li>
+                    <li>段落注释以 <code>/*</code> 开头，以 <code>*/</code> 结束。</li>
+                </ul>
+                <p>你可以通过注释来临时屏蔽一行或一段代码，上述操作称为注释掉（commenting out）代码。</p>
+            </section>
 
-    <section>
-        <h2>数据与变量</h2>
-        <p>数据是一系列符号并可以被解析为某种含义。一段被存放在内存中的数据称为值。</p>
-        <p>变量是一段命名的内存，用来存放值。变量的名称为标识符（identifier）。</p>
-    </section>
+            <section>
+                <h2>数据与变量</h2>
+                <p>数据是一系列符号并可以被解析为某种含义。一段被存放在内存中的数据称为值。</p>
+                <p>变量是一段命名的内存，用来存放值。变量的名称为标识符（identifier）。</p>
+            </section>
 
-    <section>
-        <h2>初始化与赋值</h2>
-        <p>拷贝赋值（通过 <code>operator=</code>）可以被用来向某个已经被创建的变量赋值。</p>
-        <p>初始化用于在变量被创建的同时为其指定值。C++ 支持三种类型的初始化：</p>
-        <ul>
-            <li>拷贝初始化</li>
-            <li>直接初始化</li>
-            <li>统一初始化（也称为列表初始化或括号初始化）</li>
-        </ul>
-    </section>
+            <section>
+                <h2>初始化与赋值</h2>
+                <p>拷贝赋值（通过 <code>operator=</code>）可以被用来向某个已经被创建的变量赋值。</p>
+                <p>初始化用于在变量被创建的同时为其指定值。C++ 支持三种类型的初始化：</p>
+                <ul>
+                    <li>拷贝初始化</li>
+                    <li>直接初始化</li>
+                    <li>统一初始化（也称为列表初始化或括号初始化）</li>
+                </ul>
+            </section>
 
-    <section>
-        <h2>标准输入输出</h2>
-        <p><code>std::cout</code> 和 <code>operator<<</code> 可以将表达式的结果作为文本输出到控制台。<code>std::endl</code>
-            会输出一个换行符。<code>std::cin</code> 和 <code>operator>></code> 可以从键盘获取输入值。</p>
-    </section>
+            <section>
+                <h2>标准输入输出</h2>
+                <p><code>std::cout</code> 和 <code>operator<<</code> 可以将表达式的结果作为文本输出到控制台。<code>std::endl</code>
+                    会输出一个换行符。<code>std::cin</code> 和 <code>operator>></code> 可以从键盘获取输入值。</p>
+            </section>
 
-    <section>
-        <h2>关键字与字面量</h2>
-        <p>C++ 预留了一组名称，称为关键字。这些关键字在 C++ 中具有特殊的含义，不能被用作变量名。</p>
-        <p>字面量指的是直接插入源码中的固定值。例如 <code>5</code> 和 <code>"Hello world!"</code>。</p>
-    </section>
+            <section>
+                <h2>关键字与字面量</h2>
+                <p>C++ 预留了一组名称，称为关键字。这些关键字在 C++ 中具有特殊的含义，不能被用作变量名。</p>
+                <p>字面量指的是直接插入源码中的固定值。例如 <code>5</code> 和 <code>"Hello world!"</code>。</p>
+            </section>
 
-    <section>
-        <h2>表达式与运算</h2>
-        <p>表达式是一组字面量、变量、运算符和函数调用的组合，它经过求值后，会得到一个单一值。</p>
-        <p>一元运算符使用一个操作数，二元运算符使用两个操作数，三元运算符使用三个操作数。</p>
-    </section>
+            <section>
+                <h2>表达式与运算</h2>
+                <p>表达式是一组字面量、变量、运算符和函数调用的组合，它经过求值后，会得到一个单一值。</p>
+                <p>一元运算符使用一个操作数，二元运算符使用两个操作数，三元运算符使用三个操作数。</p>
+            </section>
+        </article>
+    </main>
 
     <footer>
         <p>编程是一项需要不断优化和完善的技能。让程序能够运行起来，是编程的首要任务。</p>
     </footer>
 </body>
-
 </html>
