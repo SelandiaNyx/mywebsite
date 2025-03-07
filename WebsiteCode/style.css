@@ -1,26 +1,46 @@
+
 /* 
  * 导航页样式表
- * 优化版本
+ * 优化版本 2.0
  */
 
 /* 定义颜色和尺寸变量 */
 :root {
+    /* 主色调 */
     --primary-color: #007bff;
     --primary-hover: #0056b3;
     --secondary-color: #e0e0e0;
-    --error-bg-color: #f8d7da;
-    --error-text-color: #721c24;
+    
+    /* 语义化颜色 */
+    --header-bg-color: #f8d7da;
+    --header-text-color: #721c24;
+    --text-color: #333;
+    --text-muted: #666;
+    --bg-color: #f4f4f4;
+    --card-bg: #fff;
+    
+    /* 边框和阴影 */
     --border-color: #007bff;
     --shadow-color: rgba(0, 0, 0, 0.1);
     --hover-shadow-color: rgba(0, 0, 0, 0.2);
+    
+    /* 间距和尺寸 */
+    --spacing-xs: 5px;
     --spacing-sm: 10px;
     --spacing-md: 20px;
+    --spacing-lg: 30px;
+    --border-radius-sm: 5px;
     --border-radius: 15px;
+    
+    /* 过渡效果 */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
 }
 
 /* 基本样式 */
 html {
     box-sizing: border-box;
+    scroll-behavior: smooth; /* 平滑滚动 */
 }
 
 *, *:before, *:after {
@@ -28,25 +48,27 @@ html {
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     line-height: 1.6;
     margin: 0;
     padding: var(--spacing-md);
     max-width: 1200px;
     margin: 0 auto;
+    text-rendering: optimizeSpeed; /* 优化文本渲染速度 */
 }
 
 /* 布局组件 */
 header {
-    background: var(--error-bg-color);
-    color: var(--error-text-color);
+    background: var(--header-bg-color);
+    color: var(--header-text-color);
     padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: 5px;
+    border-radius: var(--border-radius-sm);
     text-align: center;
     box-shadow: 0 4px 8px var(--shadow-color);
     margin-bottom: var(--spacing-md);
+    backdrop-filter: blur(5px); /* 现代毛玻璃效果 */
 }
 
 main {
@@ -58,12 +80,13 @@ nav {
 }
 
 section {
-    background: #fff;
-    border-radius: 5px;
+    background: var(--card-bg);
+    border-radius: var(--border-radius-sm);
     box-shadow: 0 4px 8px var(--shadow-color);
     margin: var(--spacing-md) 0;
     padding: var(--spacing-md);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+    will-change: transform, box-shadow; /* 提示浏览器这些属性将会改变 */
 }
 
 section:hover {
@@ -74,9 +97,9 @@ section:hover {
 footer {
     text-align: center;
     padding: var(--spacing-md);
-    margin-top: 30px;
+    margin-top: var(--spacing-lg);
     border-top: 1px solid var(--secondary-color);
-    color: #666;
+    color: var(--text-muted);
 }
 
 /* 排版 */
@@ -108,20 +131,39 @@ a {
     color: white;
     text-decoration: none;
     border-radius: var(--border-radius);
-    transition: background-color 0.3s, transform 0.3s;
+    transition: background-color var(--transition-normal), transform var(--transition-normal), box-shadow var(--transition-normal);
+    will-change: transform, background-color;
+    position: relative;
+    overflow: hidden;
+}
+
+a::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-100%);
+    transition: transform var(--transition-fast);
 }
 
 a:hover {
     background-color: var(--primary-hover);
     transform: scale(1.05);
-    will-change: transform;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+a:hover::after {
+    transform: translateX(0);
 }
 
 a:focus {
     background-color: var(--secondary-color);
     outline: 3px dashed var(--primary-color);
     outline-offset: 3px;
-    color: #333;
+    color: var(--text-color);
 }
 
 /* 确保键盘导航可访问性 */
@@ -148,9 +190,16 @@ img {
     border-radius: 10px;
     padding: 5px;
     box-shadow: 0 4px 8px var(--shadow-color);
-    transition: transform 0.3s;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
     display: block;
     margin: 0 auto;
+    object-fit: cover; /* 确保图片比例一致 */
+    will-change: transform, box-shadow;
+}
+
+img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px var(--hover-shadow-color);
 }
 
 figure {
@@ -170,12 +219,26 @@ figcaption {
     
     a {
         padding: 8px 15px;
+        display: block;
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    header {
+        padding: var(--spacing-sm);
     }
 }
 
 @media (max-width: 480px) {
+    :root {
+        --spacing-md: 15px; /* 在小屏幕上减少间距 */
+    }
+    
     section {
         padding: var(--spacing-sm);
+    }
+    
+    h1 {
+        font-size: 1.5rem;
     }
 }
 
@@ -183,20 +246,74 @@ figcaption {
 @media print {
     body {
         background-color: white;
+        color: black;
+        font-size: 12pt;
     }
     
     a {
         color: black;
         background: none;
         text-decoration: underline;
+        padding: 0;
+    }
+    
+    a::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
     }
     
     section, header {
         box-shadow: none;
         border: 1px solid #ddd;
+        break-inside: avoid; /* 避免在打印时分页 */
     }
     
     section:hover {
         transform: none;
     }
+    
+    img {
+        max-width: 100% !important;
+        page-break-inside: avoid;
+    }
+    
+    @page {
+        margin: 2cm;
+    }
+}
+
+/* 添加暗黑模式支持 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #121212;
+        --card-bg: #1e1e1e;
+        --text-color: #e0e0e0;
+        --text-muted: #aaa;
+        --header-bg-color: #2c1215;
+        --header-text-color: #f8d7da;
+        --secondary-color: #444;
+    }
+    
+    a:focus {
+        color: #e0e0e0;
+    }
+    
+    pre, code {
+        background-color: #2a2a2a;
+    }
+}
+
+/* 添加动画效果 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+main {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 性能优化 */
+img, a {
+    content-visibility: auto; /* 优化渲染性能 */
 }
