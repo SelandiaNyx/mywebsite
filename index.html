@@ -4,8 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>导航页</title>
+    <meta name="description" content="导航页 - 编程语言学习和ArchLinux相关项目导航">
+    <title>导航页 - 编程学习和Linux资源</title>
     <link rel="stylesheet" href="WebsiteCode/style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Open Graph标签优化社交媒体分享效果 -->
+    <meta property="og:title" content="导航页 - 编程学习和Linux资源">
+    <meta property="og:description" content="编程语言学习和ArchLinux相关项目导航">
+    <meta property="og:image" content="photos/68304229_p0.jpg">
 </head>
 
 <body>
@@ -19,35 +25,44 @@
         <p>发布日期：2024年9月28日</p>
         <p>最后编辑日期：2024年12月17日</p>
     </header>
-    <nav>
-        <ul>
-            <li>
-                <a href="ProgrammingLanguageStudy/directory.html" target="_blank" rel="noopener noreferrer">
-                    <span role="img" aria-label="链接图标">🔗</span> 编程语言学习相关项目目录
-                </a>
-            </li>
-            <li>
-                <a href="ArchLinuxProjects/directory.html" target="_blank" rel="noopener noreferrer">
-                    <span role="img" aria-label="链接图标">🔗</span> ArchLinux相关项目目录
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <section>
-        <article>
-            <img src="photos/68304229_p0.jpg" 
-                 srcset="photos/68304229_p0.jpg 1200w"
-                 sizes="(max-width: 600px) 480px, 
-                        (max-width: 1000px) 800px, 
-                        1200px"
-                 alt="焦茶的阿比插画">
-        </article>
-        <p>
-            <a href="https://www.pixiv.net/artworks/68304229" target="_blank" rel="noopener noreferrer">
-                <span role="img" aria-label="链接图标">🔗</span> 画师焦茶的阿比，点击直达
-            </a>
-        </p>
-    </section>
+    
+    <main>
+        <nav aria-label="主导航">
+            <ul>
+                <li>
+                    <a href="ProgrammingLanguageStudy/directory.html" target="_blank" rel="noopener noreferrer">
+                        <span role="img" aria-label="链接图标">🔗</span> 编程语言学习相关项目目录
+                    </a>
+                </li>
+                <li>
+                    <a href="ArchLinuxProjects/directory.html" target="_blank" rel="noopener noreferrer">
+                        <span role="img" aria-label="链接图标">🔗</span> ArchLinux相关项目目录
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <section>
+            <figure>
+                <img src="photos/68304229_p0.jpg" 
+                     srcset="photos/68304229_p0.jpg 1200w"
+                     sizes="(max-width: 600px) 480px, 
+                            (max-width: 1000px) 800px, 
+                            1200px"
+                     alt="焦茶的阿比插画"
+                     loading="lazy">
+                <figcaption>
+                    <a href="https://www.pixiv.net/artworks/68304229" target="_blank" rel="noopener noreferrer">
+                        <span role="img" aria-label="链接图标">🔗</span> 画师焦茶的阿比，点击直达
+                    </a>
+                </figcaption>
+            </figure>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2024 版权所有</p>
+    </footer>
 </body>
 
 </html>
