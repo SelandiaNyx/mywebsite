@@ -1,324 +1,394 @@
-
-/* 
- * 通用样式表
- */
-
-/* 定义颜色和尺寸变量 */
+/* =========================================
+   1. 全局变量定义 (CSS Variables)
+   ========================================= */
 :root {
-    /* 主色调 */
-    --primary-color: #007bff;
-    --primary-hover: #0056b3;
-    --secondary-color: #e0e0e0;
+    /* 核心色板 - 樱花粉配天空蓝 */
+    --primary-color: #ff9a9e;
+    --primary-gradient: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%);
+    --secondary-color: #a18cd1;
+    --secondary-gradient: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
+    --accent-color: #4facfe;
     
-    /* 语义化颜色 */
-    --header-bg-color: #f8d7da;
-    --header-text-color: #721c24;
-    --text-color: #333;
-    --text-muted: #666;
-    --bg-color: #f4f4f4;
-    --card-bg: #fff;
+    /* 文字颜色 */
+    --text-main: #4a4a4a;       /* 不用纯黑，用深灰显得更柔和 */
+    --text-secondary: #888888;
+    --text-light: #ffffff;
+
+    /* 背景体系 */
+    --bg-body: #f9f9fc;
+    --bg-card: rgba(255, 255, 255, 0.9);
+    --bg-glass: rgba(255, 255, 255, 0.7);
+
+    /* 装饰性元素 */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 10px 20px rgba(255, 154, 158, 0.3); /* 带有主色调的投影 */
     
-    /* 边框和阴影 */
-    --border-color: #007bff;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    --hover-shadow-color: rgba(0, 0, 0, 0.2);
-    
-    /* 间距和尺寸 */
-    --spacing-xs: 5px;
-    --spacing-sm: 10px;
-    --spacing-md: 20px;
-    --spacing-lg: 30px;
-    --border-radius-sm: 5px;
-    --border-radius: 15px;
-    
-    /* 过渡效果 */
-    --transition-fast: 0.2s ease;
-    --transition-normal: 0.3s ease;
+    /* 动画曲线 - 有回弹感的平滑过渡 */
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 基本样式 */
-html {
+/* =========================================
+   2. 基础重置与骨架 (Reset & Basics)
+   ========================================= */
+*, *::before, *::after {
     box-sizing: border-box;
-    scroll-behavior: smooth; /* 平滑滚动 */
+    outline: none;
 }
 
-*, *:before, *:after {
-    box-sizing: inherit;
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
     margin: 0;
-    padding: var(--spacing-md);
-    max-width: 1200px;
-    margin: 0 auto;
-    text-rendering: optimizeSpeed; /* 优化文本渲染速度 */
+    font-family: 'Nunito', 'PingFang SC', 'Microsoft YaHei', sans-serif; /* 选用圆润的西文字体 */
+    background-color: var(--bg-body);
+    /* 添加一个可爱的背景纹理 */
+    background-image: 
+        radial-gradient(var(--primary-color) 1px, transparent 1px),
+        radial-gradient(var(--secondary-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    color: var(--text-main);
+    line-height: 1.8;
+    overflow-x: hidden;
 }
 
-/* 布局组件 */
-header {
-    background: var(--header-bg-color);
-    color: var(--header-text-color);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--border-radius-sm);
-    text-align: center;
-    box-shadow: 0 4px 8px var(--shadow-color);
-    margin-bottom: var(--spacing-md);
-    backdrop-filter: blur(5px); /* 现代毛玻璃效果 */
+/* 选中文本的颜色 - 二次元风格细节 */
+::selection {
+    background: var(--primary-color);
+    color: #fff;
 }
 
-main {
-    margin: var(--spacing-md) 0;
+/* 滚动条美化 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #ffc3c6;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
 }
 
-nav {
-    margin: var(--spacing-md) 0;
-}
-
-section {
-    background: var(--card-bg);
-    border-radius: var(--border-radius-sm);
-    box-shadow: 0 4px 8px var(--shadow-color);
-    margin: var(--spacing-md) 0;
-    padding: var(--spacing-md);
-    transition: box-shadow var(--transition-normal), transform var(--transition-normal);
-    will-change: transform, box-shadow; /* 提示浏览器这些属性将会改变 */
-}
-
-section:hover {
-    box-shadow: 0 8px 16px var(--hover-shadow-color);
-    transform: translateY(-5px);
-}
-
-footer {
-    text-align: center;
-    padding: var(--spacing-md);
-    margin-top: var(--spacing-lg);
-    border-top: 1px solid var(--secondary-color);
-    color: var(--text-muted);
-}
-
-/* 排版 */
+/* =========================================
+   3. 排版与标题 (Typography)
+   ========================================= */
 h1, h2, h3, h4, h5, h6 {
-    color: var(--primary-color);
-    margin: var(--spacing-sm) 0;
-}
-
-/* inline code */
-:not(pre) > code {
-    padding: 0.15em 0.35em;
-    border-radius: 3px;
-    background: #f1f1f1;
-}
-
-/* block code */
-pre {
-    padding: 12px 16px;
-    overflow-x: auto;
-}
-
-pre code {
-    padding: 0;
-    background: none;
-    display: block;
-    line-height: 1.5;
-}
-
-
-/* 链接样式 */
-a {
-    display: inline-block;
-    padding: var(--spacing-sm) var(--spacing-md);
-    background-color: var(--primary-color);
-    color: white;
-    text-decoration: none;
-    border-radius: var(--border-radius);
-    transition: background-color var(--transition-normal), transform var(--transition-normal), box-shadow var(--transition-normal);
-    will-change: transform, background-color;
+    color: #333;
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
     position: relative;
-    overflow: hidden;
 }
 
+h1 {
+    font-size: 2.5rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* 渐变色标题 */
+    display: inline-block;
+}
+
+h2 {
+    font-size: 2rem;
+    padding-left: 12px;
+    border-left: 5px solid var(--primary-color);
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h3::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: var(--secondary-color);
+    border-radius: 2px;
+    margin-top: 8px;
+    transition: width 0.3s var(--ease-bounce);
+}
+
+h3:hover::after {
+    width: 80px; /* 标题下划线伸缩动画 */
+}
+
+p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    position: relative;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+/* 链接下划线动画 */
 a::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(-100%);
-    transition: transform var(--transition-fast);
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s var(--ease-smooth);
 }
 
 a:hover {
-    background-color: var(--primary-hover);
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+    color: var(--primary-color);
 }
 
 a:hover::after {
-    transform: translateX(0);
+    transform: scaleX(1);
+    transform-origin: bottom left;
 }
 
-a:focus {
-    background-color: var(--secondary-color);
-    outline: 3px dashed var(--primary-color);
-    outline-offset: 3px;
-    color: var(--text-color);
+/* =========================================
+   4. 内容容器 (Layout Containers)
+   ========================================= */
+main, article {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    /* 毛玻璃特效 */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-/* 确保键盘导航可访问性 */
-a:focus-visible {
-    outline: 3px dashed var(--primary-color);
-    outline-offset: 3px;
+/* =========================================
+   5. 引用与代码块 (Quotes & Code)
+   ========================================= */
+blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem 2rem;
+    background: #fff0f5; /* 极淡的粉色背景 */
+    border-left: none;
+    border-radius: var(--radius-md);
+    position: relative;
+    color: #666;
+    font-style: italic;
+    box-shadow: inset 4px 0 0 var(--primary-color);
 }
 
-/* 列表样式 */
+blockquote::before {
+    content: '"';
+    font-size: 3rem;
+    color: var(--primary-color);
+    opacity: 0.3;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+}
+
+pre {
+    background: #282c34;
+    padding: 3rem 1.5rem 1.5rem 1.5rem; /* 顶部留空给Mac红绿灯 */
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* 模拟 Mac 窗口红绿灯效果 */
+pre::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5f56;
+    box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f;
+}
+
+code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9em;
+}
+
+p code {
+    background: #fff5f5;
+    color: #ff5050;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin: 0 2px;
+}
+
+pre code {
+    color: #abb2bf;
+    background: transparent;
+    padding: 0;
+}
+
+/* =========================================
+   6. 列表 (Lists)
+   ========================================= */
 ul, ol {
-    margin: var(--spacing-sm) 0 var(--spacing-md) var(--spacing-md);
-    padding-left: var(--spacing-md);
+    padding-left: 20px;
+    margin-bottom: 1.5rem;
 }
 
 li {
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
+    position: relative;
 }
 
-/* 图片和图表 */
+/* 自定义列表图标 - 用可爱的小圆点 */
+ul li::marker {
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+
+/* =========================================
+   7. 媒体元素 (Media)
+   ========================================= */
 img {
     max-width: 100%;
     height: auto;
-    border: 4px solid var(--border-color);
-    border-radius: 10px;
-    padding: 5px;
-    box-shadow: 0 4px 8px var(--shadow-color);
-    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    border-radius: var(--radius-md);
     display: block;
-    margin: 0 auto;
-    object-fit: cover; /* 确保图片比例一致 */
-    will-change: transform, box-shadow;
+    margin: 2rem auto;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.4s var(--ease-bounce), box-shadow 0.4s var(--ease-bounce);
 }
 
 img:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 12px var(--hover-shadow-color);
+    transform: scale(1.02) translateY(-5px);
+    box-shadow: var(--shadow-hover);
 }
 
 figure {
-    margin: var(--spacing-md) 0;
+    margin: 0;
+    text-align: center;
 }
 
 figcaption {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+/* =========================================
+   8. 表格 (Tables)
+   ========================================= */
+table {
+    width: 100%;
+    border-collapse: separate; /* 为了圆角 */
+    border-spacing: 0;
+    margin: 2rem 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 10px rgba(0,0,0,0.02);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:nth-child(even) {
+    background-color: #fcfcfc;
+}
+
+tr:hover td {
+    background-color: #fff0f3; /* hover时变粉 */
+    transition: background-color 0.2s ease;
+}
+
+/* =========================================
+   9. 表单元素 (Forms & Buttons)
+   ========================================= */
+input, textarea, select {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0;
+    border: 2px solid #eee;
+    border-radius: var(--radius-md);
+    background: #fff;
+    transition: all 0.3s var(--ease-smooth);
+    font-family: inherit;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 4px rgba(161, 140, 209, 0.2);
+}
+
+button, .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 50px; /* 胶囊形状 */
+    background: var(--primary-gradient);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+    transition: transform 0.3s var(--ease-bounce), box-shadow 0.3s ease;
     text-align: center;
-    margin-top: var(--spacing-sm);
 }
 
-/* 响应式设计 */
-@media (max-width: 768px) {
-    body {
-        padding: var(--spacing-sm);
-    }
-    
-    a {
-        padding: 8px 15px;
-        display: block;
-        margin-bottom: var(--spacing-xs);
-    }
-    
-    header {
-        padding: var(--spacing-sm);
-    }
+button:hover, .btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 154, 158, 0.6);
 }
 
-@media (max-width: 480px) {
-    :root {
-        --spacing-md: 15px; /* 在小屏幕上减少间距 */
-    }
-    
-    section {
-        padding: var(--spacing-sm);
-    }
-    
-    h1 {
-        font-size: 1.5rem;
-    }
+button:active {
+    transform: scale(0.95);
 }
 
-/* 打印样式 */
-@media print {
-    body {
-        background-color: white;
-        color: black;
-        font-size: 12pt;
-    }
-    
-    a {
-        color: black;
-        background: none;
-        text-decoration: underline;
-        padding: 0;
-    }
-    
-    a::after {
-        content: " (" attr(href) ")";
-        font-size: 0.8em;
-    }
-    
-    section, header {
-        box-shadow: none;
-        border: 1px solid #ddd;
-        break-inside: avoid; /* 避免在打印时分页 */
-    }
-    
-    section:hover {
-        transform: none;
-    }
-    
-    img {
-        max-width: 100% !important;
-        page-break-inside: avoid;
-    }
-    
-    @page {
-        margin: 2cm;
-    }
+/* =========================================
+   10. 分割线与杂项 (Misc)
+   ========================================= */
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 154, 158, 0.75), rgba(0, 0, 0, 0));
+    margin: 3rem 0;
 }
 
-/* 添加暗黑模式支持 */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg-color: #121212;
-        --card-bg: #1e1e1e;
-        --text-color: #e0e0e0;
-        --text-muted: #aaa;
-        --header-bg-color: #2c1215;
-        --header-text-color: #f8d7da;
-        --secondary-color: #444;
-    }
-    
-    a:focus {
-        color: #e0e0e0;
-    }
-    
-    pre, code {
-        background-color: #2a2a2a;
-    }
+/* 简单的卡片浮动动画类 */
+.float-card {
+    animation: float 6s ease-in-out infinite;
 }
 
-/* 添加动画效果 */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-main {
-    animation: fadeIn 0.5s ease-out;
-}
-
-/* 性能优化 */
-img, a {
-    content-visibility: auto; /* 优化渲染性能 */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
 }
