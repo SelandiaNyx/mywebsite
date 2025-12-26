@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>如何在 ArchLinux / ImmortalWrt 上使用 Docker 运行 ALAS</title>
+    <link rel="stylesheet" href="../WebsiteCode/css/style.css">
+</head>
+
+<body>
+<header>
+    <h1>如何在 ArchLinux / ImmortalWrt 上使用 Docker 运行碧蓝航线脚本 ALAS</h1>
+    <p>发布日期：2024/09/28</p>
+    <p>最近修改日期：2025/12/26</p>
+</header>
+
+<main>
+
+<!-- ================= Arch Linux ================= -->
+<section>
+    <h2>Arch Linux</h2>
+
+    <ol>
+        <li>
+            <strong>安装 Docker 和 adb</strong>
+            <pre><code>sudo pacman -S docker docker-compose android-tools</code></pre>
+        </li>
+
+        <li>
+            <strong>启动 Docker 服务</strong>
+            <pre><code>sudo systemctl enable --now docker</code></pre>
+        </li>
+
+        <li>
+            <strong>将当前用户加入 docker 组（避免每次 sudo）</strong>
+            <pre><code>sudo usermod -aG docker $USER
+newgrp docker</code></pre>
+        </li>
+
+        <li>
+            <strong>确保 adb 可用</strong>
+            <pre><code>waydroid status
+adb connect waydroidIP:5555
+adb devices</code></pre>
+        </li>
+
+        <li>
+            <strong>新建工作目录</strong>
+            <pre><code>mkdir alas-docker
+cd alas-docker</code></pre>
+        </li>
+
+        <li>
+            <strong>获取 ALAS 源码</strong>
+            <pre><code>git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git ~/alas-docker/src</code></pre>
+        </li>
+
+        <li>
+            <strong>创建 Dockerfile</strong>
+            <pre><code>touch Dockerfile</code></pre>
+        </li>
+
+        <li>
+            <strong>Dockerfile 内容</strong>
+            <pre><code>FROM python:3.7-slim
+
+# System dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget git adb libgomp1 openssh-client ca-certificates \
+    libgl1-mesa-glx libglib2.0-0 libsm6 libxext6 libxrender1 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Miniconda
+RUN wget -q https://repo.anaconda.com/miniconda/Miniconda3-py313_25.9.1-3-Linux-x86_64.sh \
+    -O /tmp/miniconda.sh \
+    && bash /tmp/miniconda.sh -b -p /opt/conda \
+    && rm /tmp/miniconda.sh
+
+ENV PATH="/opt/conda/bin:${PATH}"
+
+RUN conda config --system --remove channels defaults \
+    && conda config --system --add channels conda-forge \
+    && conda config --system --set channel_priority strict
+
+RUN conda install -y mamba
+
+WORKDIR /app/AzurLaneAutoScript
+
+COPY src/requirements.txt /tmp/requirements.txt
+
+RUN AV_VERSION=$(grep -E '^av==' /tmp/requirements.txt | cut -d '=' -f 3) \
+    && mamba install -y "python=3.7" "av==$AV_VERSION" \
+    && conda clean --all --yes
+
+RUN grep -v '^av==' /tmp/requirements.txt > /tmp/requirements_no_av.txt \
+    && pip install --no-cache-dir -r /tmp/requirements_no_av.txt \
+    && rm /tmp/requirements.txt /tmp/requirements_no_av.txt
+
+CMD ["python", "gui.py"]</code></pre>
+        </li>
+
+        <li>
+            <strong>修改 requirements.txt</strong>
+            <p>
+                注释以下内容：
+                <br>av==10.0.0
+                <br>pywin32==301
+            </p>
+            <p>
+                并将 requests 调整为：
+                <br><code>requests&gt;=2.20.0,&lt;3</code>
+            </p>
+        </li>
+
+        <li>
+            <strong>构建 Docker 镜像</strong>
+            <pre><code>docker build -t alas-conda .</code></pre>
+        </li>
+
+        <li>
+            <strong>创建 docker-compose.yml</strong>
+            <pre><code>touch docker-compose.yml</code></pre>
+        </li>
+
+        <li>
+            <strong>docker-compose.yml 内容</strong>
+            <pre><code>services:
+  alas:
+    image: alas-conda
+    container_name: alas
+    network_mode: host
+    volumes:
+      - ~/.android:/root/.android
+      - ./config:/alas/config
+      - ./src:/app/AzurLaneAutoScript
+    working_dir: /app/AzurLaneAutoScript
+    command: python gui.py</code></pre>
+        </li>
+
+        <li>
+            <strong>运行 ALAS</strong>
+            <pre><code>docker-compose up</code></pre>
+            <p>
+                后台运行：
+                <code>docker-compose up -d</code><br>
+                停止运行：
+                <code>docker-compose kill alas</code>
+            </p>
+        </li>
+    </ol>
+
+    <p><strong>至此，Arch Linux 环境配置完成。</strong></p>
+</section>
+
+<!-- ================= ImmortalWrt ================= -->
+<section>
+    <h2>ImmortalWrt</h2>
+
+    <p>
+        ImmortalWrt 的整体流程与 Arch Linux 基本一致，区别如下：
+    </p>
+
+    <ul>
+        <li>软件安装使用 <code>opkg install</code></li>
+        <li>无 <code>android-tools</code>，使用 <code>adb</code> 包</li>
+        <li>为节省空间，建议在 PC 上完成源码克隆与依赖修改</li>
+    </ul>
+
+    <p>
+        操作建议流程：
+    </p>
+
+    <ol>
+        <li>在电脑上克隆 ALAS 并修改 <code>requirements.txt</code></li>
+        <li>将 <code>src</code> 目录打包为 <code>src.tar.gz</code></li>
+        <li>上传至路由器并解压</li>
+        <li>
+            在电脑上使用 socat 做端口转发：
+            <pre><code>socat TCP-LISTEN:5555,fork TCP:waydroidIP:5555</code></pre>
+        </li>
+        <li>
+            在 ALAS 中填写：
+            <pre><code>PCIP:5555</code></pre>
+        </li>
+    </ol>
+</section>
+
+<!-- ================= Optional ================= -->
+<section>
+    <h2>可选内容：修改反和谐</h2>
+    <pre><code>sudo waydroid shell
+vim storage/emulated/0/Android/data/com.bilibili.azurlane/files/localization.txt</code></pre>
+    <p>将 <code>false</code> 改为 <code>true</code></p>
+</section>
+
+</main>
+
+<footer></footer>
+</body>
+</html>
