@@ -1,121 +1,50 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="导航页 - ArchLinux相关项目导航">
-    <meta name="keywords" content="ArchLinux">
-    <meta name="author" content="SelandiaNyx">
-    <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#007bff">
-    
-    <!-- 缓存控制 -->
-    <meta http-equiv="Cache-Control" content="max-age=86400">
-    
-    <title>导航页 - ArchLinux相关项目导航</title>
-    
-    <!-- 预加载关键资源 -->
-    <link rel="preload" href="WebsiteCode/style.css" as="style">
-    <link rel="preload" href="photos/68304229_p0.jpg" as="image" fetchpriority="high">
-    
+    <title>SelandiaNyx 的 ArchLinux 导航站</title>
     <link rel="stylesheet" href="WebsiteCode/css/style.css">
-    <!-- 使用内联数据URI作为favicon，避免404错误 -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23007bff'/%3E%3Cpath d='M30 50 L45 65 L70 35' stroke='white' stroke-width='8' fill='none'/%3E%3C/svg%3E" type="image/svg+xml">
-    
-    <!-- Open Graph标签优化社交媒体分享效果 -->
-    <meta property="og:title" content="导航页 - ArchLinux相关项目导航">
-    <meta property="og:description" content="ArchLinux相关项目导航">
-    <meta property="og:image" content="photos/68304229_p0.jpg">
-    <meta property="og:url" content="https://SelandiaNyx.github.io/">
-    <meta property="og:type" content="website">
-    
-    <!-- Twitter卡片 -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="导航页 - ArchLinux资源">
-    <meta name="twitter:description" content="ArchLinux相关项目导航">
-    <meta name="twitter:image" content="photos/68304229_p0.jpg">
 </head>
 
 <body>
-    <header>
-        <h1>SelandiaNyx 的 ArchLinux 相关项目导航</h1>
+<header>
+    <h1>ArchLinux Project Hub</h1>
+    <p class="subtitle">
+        Presented by
+        <a href="https://github.com/SelandiaNyx" target="_blank" class="author-link">
+            @SelandiaNyx
+        </a>
+    </p>
+</header>
+
+<main>
+    <nav>
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="ArchLinuxProjects/directory.html" class="btn btn-primary">
+                    <span class="icon">📂</span>
+                    ArchLinux 软件运行环境目录
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <hr>
+
+    <section class="visual-showcase">
+        <img class="hero-image"
+             src="photos/68304229_p0.jpg"
+             alt="画师焦茶绘制的阿比盖尔插画">
+
         <p>
-            编辑者：
-            <a href="https://github.com/SelandiaNyx" target="_blank" rel="noopener noreferrer">SelandiaNyx</a>
+            <a href="https://www.pixiv.net/artworks/68304229"
+               target="_blank"
+               class="caption-link">
+                🎨 插画来源：焦茶 (Pixiv)
+            </a>
         </p>
-    </header>
-    
-    <main>
-        <nav aria-label="主导航">
-            <ul>
-                 <li>
-                    <a href="ArchLinuxProjects/directory.html" rel="noopener noreferrer">
-                        <span role="img" aria-label="链接图标">🔗</span> ArchLinux 上运行各类软件相关项目目录
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        
-        <section>
-            <figure>
-                <!-- 图片优化：添加宽高属性减少布局偏移 -->
-                <img src="photos/68304229_p0.jpg" 
-                     srcset="photos/68304229_p0.jpg 1200w"
-                     sizes="(max-width: 600px) 480px, 
-                            (max-width: 1000px) 800px, 
-                            1200px"
-                     alt="焦茶的阿比插画"
-                     loading="lazy"
-                     width="1200" 
-                     height="900"
-                     importance="high" fetchpriority="high">
-                <figcaption>
-                    <a href="https://www.pixiv.net/artworks/68304229" target="_blank" rel="noopener noreferrer">
-                        <span role="img" aria-label="链接图标">🔗</span> 画师焦茶的阿比，点击直达
-                    </a>
-                </figcaption>
-            </figure>
-        </section>
-    </main>
-    
-    <footer>
-        <p>© <time datetime="2024">2024</time> 版权所有</p>
-    </footer>
-
-    <!-- 添加结构化数据 -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "导航页 - ArchLinux资源",
-        "description": ArchLinux相关项目导航",
-        "url": "https://SelandiaNyx.github.io/",
-        "author": [
-            {
-                "@type": "Person",
-                "name": "SelandiaNyx",
-                "url": "https://github.com/SelandiaNyx"
-            },
-        ],
-        "datePublished": "2024-09-28",
-        "dateModified": "2025-12-27"
-    }
-    </script>
-    
-    <!-- 性能优化：延迟加载非关键JavaScript -->
-    <script>
-        // 添加页面加载时间测量
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                if (window.performance) {
-                    const timing = window.performance.timing;
-                    const pageLoadTime = timing.loadEventEnd - timing.navigationStart;
-                    console.log('页面加载时间: ' + pageLoadTime + 'ms');
-                }
-            }, 0);
-        });
-    </script>
+    </section>
+</main>
 </body>
-
 </html>

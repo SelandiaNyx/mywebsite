@@ -3,75 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>如何在 ArchLinux / ImmortalWrt 上使用 Docker 运行 ALAS</title>
+    <title>Arch Linux / ImmortalWrt 使用 Docker 运行 ALAS</title>
     <link rel="stylesheet" href="../WebsiteCode/css/style.css">
 </head>
 
 <body>
 <header>
-    <h1>如何在 ArchLinux / ImmortalWrt 上使用 Docker 运行碧蓝航线脚本 ALAS</h1>
-    <p>发布日期：2024/09/28</p>
-    <p>最近修改日期：2025/12/27</p>
+    <h1>如何在 Arch Linux / ImmortalWrt 上使用 Docker 运行碧蓝航线脚本 ALAS</h1>
+    <p>发布日期：2024/09/28 ｜ 最近修改：2025/12/27</p>
 </header>
 
 <main>
-
-<!-- ================= Arch Linux ================= -->
 <section>
     <h2>Arch Linux</h2>
-
     <ol>
         <li>
-            <strong>安装 Docker 和 adb</strong>
-            <pre><code classs="language-bash">sudo pacman -S docker docker-compose android-tools</code></pre>
+            安装 Docker 和 adb
+            <pre><code class="language-bash">sudo pacman -S docker docker-compose android-tools</code></pre>
         </li>
 
         <li>
-            <strong>启动 Docker 服务</strong>
-            <pre><code classs="language-bash">sudo systemctl enable --now docker</code></pre>
+            启动 Docker
+            <pre><code class="language-bash">sudo systemctl enable --now docker</code></pre>
         </li>
 
         <li>
-            <strong>将当前用户加入 docker 组（避免每次 sudo）</strong>
-            <pre><code classs="language-bash">sudo usermod -aG docker $USER
+            将用户加入 docker 组
+            <pre><code class="language-bash">sudo usermod -aG docker $USER
 newgrp docker</code></pre>
         </li>
 
         <li>
-            <strong>确保 adb 可用</strong>
-            <pre><code classs="language-bash">waydroid status
+            确保 adb 可用
+            <pre><code class="language-bash">waydroid status
 adb connect waydroidIP:5555
 adb devices</code></pre>
         </li>
 
         <li>
-            <strong>新建工作目录</strong>
-            <pre><code classs="language-bash">mkdir alas-docker
+            创建工作目录
+            <pre><code class="language-bash">mkdir alas-docker
 cd alas-docker</code></pre>
         </li>
 
         <li>
-            <strong>获取 ALAS 源码</strong>
-            <pre><code classs="language-bash">git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git ~/alas-docker/src</code></pre>
+            获取 ALAS 源码
+            <pre><code class="language-bash">git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git ./src</code></pre>
         </li>
 
         <li>
-            <strong>创建 Dockerfile</strong>
-            <pre><code classs="language-bash">touch Dockerfile</code></pre>
+            创建 Dockerfile
+            <pre><code class="language-bash">touch Dockerfile</code></pre>
         </li>
 
         <li>
-            <strong>Dockerfile 内容</strong>
-            <pre><code classs="language-bash">FROM python:3.7-slim
+            Dockerfile 内容
+            <pre><code class="language-dockerfile">FROM python:3.7-slim
 
-# System dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget git adb libgomp1 openssh-client ca-certificates \
     libgl1-mesa-glx libglib2.0-0 libsm6 libxext6 libxrender1 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install Miniconda
 RUN wget -q https://repo.anaconda.com/miniconda/Miniconda3-py313_25.9.1-3-Linux-x86_64.sh \
     -O /tmp/miniconda.sh \
     && bash /tmp/miniconda.sh -b -p /opt/conda \
@@ -81,51 +74,39 @@ ENV PATH="/opt/conda/bin:${PATH}"
 
 RUN conda config --system --remove channels defaults \
     && conda config --system --add channels conda-forge \
-    && conda config --system --set channel_priority strict
-
-RUN conda install -y mamba
+    && conda config --system --set channel_priority strict \
+    && conda install -y mamba
 
 WORKDIR /app/AzurLaneAutoScript
 
 COPY src/requirements.txt /tmp/requirements.txt
 
-RUN AV_VERSION=$(grep -E '^av==' /tmp/requirements.txt | cut -d '=' -f 3) \
+RUN AV_VERSION=$(grep '^av==' /tmp/requirements.txt | cut -d '=' -f 3) \
     && mamba install -y "python=3.7" "av==$AV_VERSION" \
     && conda clean --all --yes
 
-RUN grep -v '^av==' /tmp/requirements.txt > /tmp/requirements_no_av.txt \
-    && pip install --no-cache-dir -r /tmp/requirements_no_av.txt \
-    && rm /tmp/requirements.txt /tmp/requirements_no_av.txt
+RUN grep -v '^av==' /tmp/requirements.txt > /tmp/req.txt \
+    && pip install --no-cache-dir -r /tmp/req.txt \
+    && rm /tmp/requirements.txt /tmp/req.txt
 
 CMD ["python", "gui.py"]</code></pre>
         </li>
 
         <li>
-            <strong>修改 requirements.txt</strong>
-            <p>
-                注释以下内容：
-                <br>av==10.0.0
-                <br>pywin32==301
-            </p>
-            <p>
-                并将 requests 调整为：
-                <br><code classs="language-bash">requests&gt;=2.20.0,&lt;3</code>
-            </p>
+            修改 requirements.txt  
+            注释：<code>av==10.0.0</code>、<code>pywin32==301</code>  
+            requests 修改为：
+            <pre><code class="language-bash">requests>=2.20.0,<3</code></pre>
         </li>
 
         <li>
-            <strong>构建 Docker 镜像</strong>
-            <pre><code classs="language-bash">docker build -t alas-conda .</code></pre>
+            构建镜像
+            <pre><code class="language-bash">docker build -t alas-conda .</code></pre>
         </li>
 
         <li>
-            <strong>创建 docker-compose.yml</strong>
-            <pre><code classs="language-bash">touch docker-compose.yml</code></pre>
-        </li>
-
-        <li>
-            <strong>docker-compose.yml 内容</strong>
-            <pre><code classs="language-bash">services:
+            docker-compose.yml
+            <pre><code class="language-yaml">services:
   alas:
     image: alas-conda
     container_name: alas
@@ -139,62 +120,44 @@ CMD ["python", "gui.py"]</code></pre>
         </li>
 
         <li>
-            <strong>运行 ALAS</strong>
-            <pre><code classs="language-bash">docker-compose up</code></pre>
-            <p>
-                后台运行：
-                <code classs="language-bash">docker-compose up -d</code><br>
-                停止运行：
-                <code classs="language-bash">docker-compose kill alas</code>
-            </p>
+            运行
+            <pre><code class="language-bash">docker compose up</code></pre>
+            后台：<code>docker compose up -d</code>  
+            停止：<code>docker compose kill alas</code>
         </li>
     </ol>
-
 </section>
 
-<!-- ================= ImmortalWrt ================= -->
 <section>
     <h2>ImmortalWrt</h2>
-
-    <p>
-        ImmortalWrt 的整体流程与 Arch Linux 基本一致，区别如下：
-    </p>
-
+    <p>流程基本一致，差异如下：</p>
     <ul>
-        <li>软件安装使用 <code classs="language-bash">opkg install</code></li>
-        <li>无 <code classs="language-bash">android-tools</code>，使用 <code classs="language-bash">adb</code> 包</li>
-        <li>为节省空间，建议在 PC 上完成源码克隆与依赖修改</li>
+        <li>使用 <code>opkg install docker docker-compose adb</code></li>
+        <li>无 android-tools，仅 adb</li>
+        <li>建议在 PC 上完成源码准备</li>
     </ul>
 
-    <p>
-        操作建议流程：
-    </p>
-
     <ol>
-        <li>在电脑上克隆 ALAS 并修改 <code classs="language-bash">requirements.txt</code></li>
-        <li>将 <code classs="language-bash">src</code> 目录打包为 <code classs="language-bash">src.tar.gz</code></li>
-        <li>上传至路由器并解压</li>
+        <li>PC 克隆并修改 requirements.txt</li>
+        <li>打包 src 为 src.tar.gz</li>
+        <li>上传并解压</li>
         <li>
-            在电脑上使用 socat 做端口转发：
-            <pre><code classs="language-bash">socat TCP-LISTEN:5555,fork TCP:waydroidIP:5555</code></pre>
+            PC 端口转发
+            <pre><code class="language-bash">socat TCP-LISTEN:5555,fork TCP:waydroidIP:5555</code></pre>
         </li>
         <li>
-            在 ALAS 中填写：
-            <pre><code classs="language-bash">PCIP:5555</code></pre>
+            ALAS 中填写
+            <pre><code class="language-bash">PCIP:5555</code></pre>
         </li>
     </ol>
 </section>
 
-<!-- ================= Optional ================= -->
 <section>
-    <h2>可选内容：修改反和谐</h2>
-    <pre><code classs="language-bash">sudo waydroid shell
-vim storage/emulated/0/Android/data/com.bilibili.azurlane/files/localization.txt</code></pre>
-    <p>将 <code classs="language-bash">false</code> 改为 <code classs="language-bash">true</code></p>
+    <h2>可选：反和谐</h2>
+    <pre><code class="language-bash">sudo waydroid shell
+vim /storage/emulated/0/Android/data/com.bilibili.azurlane/files/localization.txt</code></pre>
+    <p>false → true</p>
 </section>
-
 </main>
-
-<footer></footer>
 </body>
 </html>
