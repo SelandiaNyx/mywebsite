@@ -96,10 +96,18 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     font-size: 2.5rem;
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; /* 渐变色标题 */
+    color: #ff9a9e;
     display: inline-block;
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+    h1 {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+    }
 }
 
 h2 {
