@@ -18,12 +18,12 @@
     <h2>Arch Linux</h2>
     <ol>
         <li>
-            安装 Docker 和 adb
+            安装 Docker 和 adb 工具
             <pre><code class="language-bash">sudo pacman -S docker docker-compose android-tools</code></pre>
         </li>
 
         <li>
-            启动 Docker
+            启动 Docker 服务
             <pre><code class="language-bash">sudo systemctl enable --now docker</code></pre>
         </li>
 
@@ -53,11 +53,6 @@ cd alas-docker</code></pre>
 
         <li>
             创建 Dockerfile
-            <pre><code class="language-bash">touch Dockerfile</code></pre>
-        </li>
-
-        <li>
-            Dockerfile 内容
             <pre><code class="language-dockerfile">FROM python:3.7-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -93,10 +88,9 @@ CMD ["python", "gui.py"]</code></pre>
         </li>
 
         <li>
-            修改 requirements.txt  
-            注释：<code>av==10.0.0</code>、<code>pywin32==301</code>  
-            requests 修改为：
-            <pre><code class="language-bash">requests>=2.20.0,<3</code></pre>
+            修改 requirements.txt<br>
+            注释掉 av==10.0.0、pywin32==301<br>  
+            requests==2.18.4  修改为 requests&ge;2.20.0,&lt;3
         </li>
 
         <li>
@@ -105,7 +99,7 @@ CMD ["python", "gui.py"]</code></pre>
         </li>
 
         <li>
-            docker-compose.yml
+            创建 docker-compose.yml
             <pre><code class="language-yaml">services:
   alas:
     image: alas-conda
@@ -122,8 +116,8 @@ CMD ["python", "gui.py"]</code></pre>
         <li>
             运行
             <pre><code class="language-bash">docker compose up</code></pre>
-            后台：<code>docker compose up -d</code>  
-            停止：<code>docker compose kill alas</code>
+            后台：docker compose up -d<br>
+            停止：docker compose kill alas
         </li>
     </ol>
 </section>
@@ -132,7 +126,7 @@ CMD ["python", "gui.py"]</code></pre>
     <h2>ImmortalWrt</h2>
     <p>流程基本一致，差异如下：</p>
     <ul>
-        <li>使用 <code>opkg install docker docker-compose adb</code></li>
+        <li>安装命令使用 <code>opkg install docker docker-compose adb</code></li>
         <li>在 PC 上完成 ALAS 源码准备</li>
     </ul>
 
