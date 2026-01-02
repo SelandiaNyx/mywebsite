@@ -126,12 +126,11 @@ CMD ["python", "gui.py"]</code></pre>
     <h2>ImmortalWrt</h2>
     <p>流程基本一致，差异如下：</p>
     <ul>
-        <li>安装命令使用 <code>opkg install docker docker-compose adb</code></li>
-        <li>在 PC 上完成 ALAS 源码准备</li>
+        <li>安装 <code>opkg install docker docker-compose adb git git-http ca-bundle</code></li>
     </ul>
 
     <ol>
-        <li>PC 克隆并修改 requirements.txt</li>
+        <li>修改 requirements.txt</li>
         <li>打包 src 为 src.tar.gz</li>
         <li>上传并解压</li>
         <li>
