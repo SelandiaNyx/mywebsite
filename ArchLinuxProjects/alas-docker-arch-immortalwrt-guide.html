@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,52 +9,52 @@
 </head>
 
 <body>
-<header>
-    <h1>如何在 Arch Linux / ImmortalWrt 上使用 Docker 运行碧蓝航线脚本 ALAS</h1>
-    <p>发布日期：2024/09/28 ｜ 最近修改：2025/12/27</p>
-</header>
+    <header>
+        <h1>如何在 Arch Linux / ImmortalWrt 上使用 Docker 运行碧蓝航线脚本 ALAS</h1>
+        <p>发布日期：2024/09/28 ｜ 最近修改：2026/01/05</p>
+    </header>
 
-<main>
-<section>
-    <h2>Arch Linux</h2>
-    <ol>
-        <li>
-            安装 Docker 和 adb 工具
-            <pre><code class="language-bash">sudo pacman -S docker docker-compose android-tools</code></pre>
-        </li>
+    <main>
+        <section>
+            <h2>Arch Linux</h2>
+            <ol>
+                <li>
+                    安装 Docker 和 adb 工具
+                    <pre><code class="language-bash">sudo pacman -S docker docker-compose android-tools</code></pre>
+                </li>
 
-        <li>
-            启动 Docker 服务
-            <pre><code class="language-bash">sudo systemctl enable --now docker</code></pre>
-        </li>
+                <li>
+                    启动 Docker 服务
+                    <pre><code class="language-bash">sudo systemctl enable --now docker</code></pre>
+                </li>
 
-        <li>
-            将用户加入 docker 组
-            <pre><code class="language-bash">sudo usermod -aG docker $USER
+                <li>
+                    将用户加入 docker 组
+                    <pre><code class="language-bash">sudo usermod -aG docker $USER
 newgrp docker</code></pre>
-        </li>
+                </li>
 
-        <li>
-            确保 adb 可用
-            <pre><code class="language-bash">waydroid status
+                <li>
+                    确保 adb 可用
+                    <pre><code class="language-bash">waydroid status
 adb connect waydroidIP:5555
 adb devices</code></pre>
-        </li>
+                </li>
 
-        <li>
-            创建工作目录
-            <pre><code class="language-bash">mkdir alas-docker
+                <li>
+                    创建工作目录
+                    <pre><code class="language-bash">mkdir alas-docker
 cd alas-docker</code></pre>
-        </li>
+                </li>
 
-        <li>
-            获取 ALAS 源码
-            <pre><code class="language-bash">git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git ./src</code></pre>
-        </li>
+                <li>
+                    获取 ALAS 源码
+                    <pre><code class="language-bash">git clone https://github.com/LmeSzinc/AzurLaneAutoScript.git ./src</code></pre>
+                </li>
 
-        <li>
-            创建 Dockerfile
-            <pre><code class="language-dockerfile">FROM python:3.7-slim
+                <li>
+                    创建 Dockerfile
+                    <pre><code class="language-dockerfile">FROM python:3.7-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget git adb libgomp1 openssh-client ca-certificates \
@@ -85,22 +86,22 @@ RUN grep -v '^av==' /tmp/requirements.txt > /tmp/req.txt \
     && rm /tmp/requirements.txt /tmp/req.txt
 
 CMD ["python", "gui.py"]</code></pre>
-        </li>
+                </li>
 
-        <li>
-            修改 requirements.txt<br>
-            注释掉 av==10.0.0、pywin32==301<br>  
-            requests==2.18.4  修改为 requests&ge;2.20.0,&lt;3
-        </li>
+                <li>
+                    修改 requirements.txt<br>
+                    注释掉 av==10.0.0、pywin32==301<br>
+                    requests==2.18.4 修改为 requests&ge;2.20.0,&lt;3
+                </li>
 
-        <li>
-            构建镜像
-            <pre><code class="language-bash">docker build -t alas-conda .</code></pre>
-        </li>
+                <li>
+                    构建镜像
+                    <pre><code class="language-bash">docker build -t alas-conda .</code></pre>
+                </li>
 
-        <li>
-            创建 docker-compose.yml
-            <pre><code class="language-yaml">services:
+                <li>
+                    创建 docker-compose.yml
+                    <pre><code class="language-yaml">services:
   alas:
     image: alas-conda
     container_name: alas
@@ -111,45 +112,52 @@ CMD ["python", "gui.py"]</code></pre>
       - ./src:/app/AzurLaneAutoScript
     working_dir: /app/AzurLaneAutoScript
     command: python gui.py</code></pre>
-        </li>
+                </li>
 
-        <li>
-            运行
-            <pre><code class="language-bash">docker compose up</code></pre>
-            后台：docker compose up -d<br>
-            停止：docker compose kill alas
-        </li>
-    </ol>
-</section>
+                <li>
+                    运行
+                    <pre><code class="language-bash">docker compose up</code></pre>
+                    后台：docker compose up -d<br>
+                    停止：docker compose kill alas
+                </li>
+            </ol>
+        </section>
 
-<section>
-    <h2>ImmortalWrt</h2>
-    <p>流程基本一致，差异如下：</p>
-    <ul>
-        <li>安装 <code>opkg install docker docker-compose adb git git-http ca-bundle</code></li>
-    </ul>
+        <section>
+            <h2>ImmortalWrt</h2>
+            <p>流程基本一致，差异如下：</p>
+            <ul>
+                <li>安装软件 <code>opkg install docker docker-compose adb git git-http ca-bundle</code></li>
+            </ul>
 
-    <ol>
-        <li>修改 requirements.txt</li>
-        <li>打包 src 为 src.tar.gz</li>
-        <li>上传并解压</li>
-        <li>
-            PC 端口转发
-            <pre><code class="language-bash">socat TCP-LISTEN:5555,fork TCP:waydroidIP:5555</code></pre>
-        </li>
-        <li>
-            ALAS 中填写
-            <pre><code class="language-bash">PCIP:5555</code></pre>
-        </li>
-    </ol>
-</section>
+            <ol>
+                <li>
+                    PC 安装 socat
+                    <pre><code>sudo pacman -S socat</code></pre>
+                </li>
+                <li>
+                    PC 端口转发
+                    <pre><code class="language-bash">socat TCP-LISTEN:5555,fork TCP:WaydroidIP:5555</code></pre>
+                </li>
+                <li>
+                    ALAS 中模拟器 Serial 填写
+                    <pre><code class="language-bash">PCIP:5555</code></pre>
+                </li>
+            </ol>
+        </section>
 
-<section>
-    <h2>可选：反和谐</h2>
-    <pre><code class="language-bash">sudo waydroid shell
+        <section>
+            <h2>查看 WaydroidIP</h2>
+            <pre><code>waydroid status</code></pre>
+        </section>
+
+        <section>
+            <h2>反和谐</h2>
+            <pre><code class="language-bash">sudo waydroid shell
 vim /storage/emulated/0/Android/data/com.bilibili.azurlane/files/localization.txt</code></pre>
-    <p>false → true</p>
-</section>
-</main>
+            <p>false → true</p>
+        </section>
+    </main>
 </body>
+
 </html>
