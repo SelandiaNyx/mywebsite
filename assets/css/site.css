@@ -1405,6 +1405,30 @@
     text-decoration-color: currentColor;
   }
 
+  /* 正文之外的行内链接同样要看得出来是可点的 */
+  .lead a,
+  .section-head a,
+  .note a,
+  .feat a,
+  .cta a:not(.btn) {
+    color: var(--a3);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--a3) 40%, transparent);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.2em;
+    transition: color var(--t-2) var(--ease-out),
+      text-decoration-color var(--t-2) var(--ease-out);
+  }
+
+  .lead a:hover,
+  .section-head a:hover,
+  .note a:hover,
+  .feat a:hover,
+  .cta a:not(.btn):hover {
+    color: var(--a2);
+    text-decoration-color: currentColor;
+  }
+
   /* ---------- 页面头（子页面） ---------- */
   .page-head {
     padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(2rem, 4vw, 3rem);
