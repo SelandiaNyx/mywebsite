@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>页面走丢了 · SelandiaNyx</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script>
+    (function () {
+      document.documentElement.classList.add("js");
+      try {
+        var saved = localStorage.getItem("selandia-theme");
+        if (saved === "light" || saved === "dark") {
+          document.documentElement.setAttribute("data-theme", saved);
+        } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      } catch (e) { }
+    })();
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="/">
+        <span class="brand__mark" aria-hidden="true">S</span>
+        <span class="brand__name">SelandiaNyx<span class="brand__sub"> / 作品集</span></span>
+      </a>
+
+      <nav class="nav" data-nav aria-label="主导航">
+        <a href="/">首页</a>
+        <a href="/projects/xiexin.html">写心</a>
+        <a href="/projects/archlinux/">ArchLinux</a>
+        <a href="https://github.com/SelandiaNyx" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </nav>
+
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="切换主题">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+        </svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+        </svg>
+      </button>
+
+      <button class="icon-btn nav-toggle" type="button" data-nav-toggle aria-label="打开菜单" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+          aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section">
+      <div class="wrap notfound">
+        <div class="stack" style="--gap:1.2rem">
+          <p class="notfound__code grad-text">404</p>
+          <h1 style="font-size:clamp(1.4rem,1.1rem+1.2vw,2rem)">这个页面不存在</h1>
+          <p class="text-dim">链接可能已经过期，或者我重构网站时把地址换掉了。</p>
+          <div class="btn-row" style="justify-content:center">
+            <a class="btn btn--primary" href="/">回到首页</a>
+            <a class="btn btn--ghost" href="/projects/archlinux/">看看 ArchLinux 项目</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__grid">
+      <div class="site-footer__meta">
+        © <span data-year>2026</span> SelandiaNyx · 由 GitHub Pages 托管<br>
+        本站不加载任何第三方脚本、字体或统计代码。
+      </div>
+      <nav class="site-footer__links" aria-label="页脚导航">
+        <a href="/">首页</a>
+        <a href="/projects/xiexin.html">写心</a>
+        <a href="/projects/archlinux/">ArchLinux</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="/assets/js/site.js" defer></script>
+</body>
+
+</html>
